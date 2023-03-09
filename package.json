@@ -4,10 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "build": "tsc --project . --outDir ./dist --esModuleInterop --resolveJsonModule --sourceMap",
+    "test": "npm run build; node dist/test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module"
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/node": "^18.14.6"
+  },
+  "workspaces": [
+    "src"
+  ]
 }
