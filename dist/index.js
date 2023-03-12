@@ -29,8 +29,9 @@ const TEST_FILLE_NAME = "teste.xml";
 exports.TEST_FILLE_NAME = TEST_FILLE_NAME;
 const AUTO_CLOSE_TAG_PATTERN = /\<*\/>/g;
 const ALL_SPACES_AND_TABS = /(\n|\t|\r)/g;
+const TAG_HAVE_VALUE = />\w+</g;
 class Xml {
-    constructor(filePath) {
+    constructor(filePath, jsonName = false) {
         this.body = {};
         // TEST_FILLE_NAME sem quebra de linhas
         const file = fs
@@ -38,23 +39,49 @@ class Xml {
             .toString()
             .replace(ALL_SPACES_AND_TABS, "");
         this.build(file);
+        // if(jsonName) fs.writeFileSync(jsonName as string);
     }
     build(file) {
-        console.log(file.split("<"));
+        const splitedXmlFile = file.split("<");
+        const startPoint = splitedXmlFile[0];
+        this.getAllSubtags(startPoint, splitedXmlFile);
+    }
+    getAllSubtags(tag, xml) {
+        const atributeList = this.getAllAtributes(tag);
+        const indexOfTagNextTag = xml.indexOf(tag) + 1;
+        const next = xml[indexOfTagNextTag];
+        if (this.isAutoClose(tag) || this.isAValueatedTag(tag)) {
+            return {
+                tag: this.getAllSubtags(next, xml.slice(indexOfTagNextTag)),
+                atributes: atributeList,
+                value: tag.split(">")[1],
+            };
+        }
+        if (RegExp(`/${tag}>`).test(tag))
+            return new Map([
+                [`${tag}`, this.getAllSubtags(next, xml.slice(indexOfTagNextTag))],
+            ]);
+        return;
     }
     isAutoClose(tag) {
         return AUTO_CLOSE_TAG_PATTERN.test(tag);
     }
+    isAValueatedTag(tag) {
+        return TAG_HAVE_VALUE.test(tag);
+    }
     getAllAtributes(tag) {
         const atributeList = tag.split(" ").slice(1);
+        if (atributeList.length == 0) {
+            return null;
+        }
         const lastPosition = atributeList.length - 1;
         const last = atributeList[lastPosition];
-        // reoves ">" if last item contains it
+        // removes ">" if last item contains it
         if (last.indexOf(">") > 0)
             atributeList[lastPosition] = last.slice(0, -1);
         let tagAtributes = new Map();
         for (let i = 0; i < atributeList.length; i++) {
-            let item = (atributeList[i]).split("=");
+            let item = atributeList[i].split("=");
             tagAtributes.set(item[0], item[1]);
         }
         return tagAtributes;
