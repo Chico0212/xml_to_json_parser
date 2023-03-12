@@ -5,6 +5,14 @@ const AUTO_CLOSE_TAG_PATTERN = /\<*\/>/g;
 const ALL_SPACES_AND_TABS = /(\n|\t|\r)/g;
 const TAG_HAVE_VALUE = />\w+</g;
 
+interface ContentProp {
+  atributes: Map<string, string> | null;
+  value: string | null;
+}
+
+interface XmlProp {
+  tag: ContentProp;
+}
 class Xml {
   body = {};
   constructor(filePath: string) {
@@ -19,16 +27,19 @@ class Xml {
 
   private build(file: string) {
     const splitedXmlFile = file.split("<");
-
+    const startPoint = splitedXmlFile[0];
+    this.body = this.getAllSubtags(startPoint, splitedXmlFile);
   }
 
-  private getSubtags(tag: string, xml: string[]) {
+  private getAllSubtags(tag: string, xml: string[]): XmlProp | ContentProp {
     const atributeList = this.getAllAtributes(tag);
 
-    if (this.isAutoClose(tag) || this.isAValueatedTag(tag)) return;
-    const indexOfTag = xml.indexOf(tag)
+    if (this.isAutoClose(tag) || this.isAValueatedTag(tag))
+      return { atributes: atributeList, value: tag.split(">")[1] } as ContentProp;
 
-    this.getSubtags(tag, xml.slice(indexOfTag + 1)) 
+    const indexOfTag = xml.indexOf(tag);
+
+    return { tag: this.getAllSubtags(tag, xml.slice(indexOfTag + 1)) } as XmlProp;
   }
 
   private isAutoClose(tag: string) {
