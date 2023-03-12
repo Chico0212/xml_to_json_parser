@@ -40,7 +40,7 @@ class Xml {
         this.build(file);
     }
     build(file) {
-        console.log(this.isAutoClose("</>"));
+        console.log(file.split("<"));
     }
     isAutoClose(tag) {
         return AUTO_CLOSE_TAG_PATTERN.test(tag);

@@ -3,6 +3,7 @@ const TEST_FILLE_NAME = "teste.xml";
 
 const AUTO_CLOSE_TAG_PATTERN = /\<*\/>/g;
 const ALL_SPACES_AND_TABS = /(\n|\t|\r)/g;
+const TAG_HAVE_VALUE = />\w+</g;
 
 class Xml {
   body = {};
@@ -17,12 +18,25 @@ class Xml {
   }
 
   private build(file: string) {
-    console.log()
+    const splitedXmlFile = file.split("<");
+
   }
 
+  private getSubtags(tag: string, xml: string[]) {
+    const atributeList = this.getAllAtributes(tag);
 
-  isAutoClose(tag: string) {
+    if (this.isAutoClose(tag) || this.isAValueatedTag(tag)) return;
+    const indexOfTag = xml.indexOf(tag)
+
+    this.getSubtags(tag, xml.slice(indexOfTag + 1)) 
+  }
+
+  private isAutoClose(tag: string) {
     return AUTO_CLOSE_TAG_PATTERN.test(tag);
+  }
+
+  private isAValueatedTag(tag: string) {
+    return TAG_HAVE_VALUE.test(tag);
   }
 
   getAllAtributes(tag: string) {
@@ -36,8 +50,8 @@ class Xml {
     let tagAtributes = new Map<string, string>();
 
     for (let i = 0; i < atributeList.length; i++) {
-      let item = (atributeList[i]).split("=");
-      tagAtributes.set(item[0], item[1])
+      let item = atributeList[i].split("=");
+      tagAtributes.set(item[0], item[1]);
     }
 
     return tagAtributes;
