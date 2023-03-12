@@ -1,15 +1,15 @@
 import { SrvRecord } from "dns";
 import * as fs from "fs";
+import { json } from "stream/consumers";
 const TEST_FILLE_NAME = "teste.xml";
 
 const AUTO_CLOSE_TAG_PATTERN = /\<*\/>/g;
 const ALL_SPACES_AND_TABS = /(\n|\t|\r)/g;
 const TAG_HAVE_VALUE = />\w+</g;
 
-
 class Xml {
-  body = {}
-  constructor(filePath: string, jsonName: boolean | string = false) {
+  body = {} as Map<any, any>;
+  constructor(filePath: string, jsonName: string = "") {
     // TEST_FILLE_NAME sem quebra de linhas
     const file = fs
       .readFileSync(filePath)
@@ -18,17 +18,57 @@ class Xml {
 
     this.build(file);
 
-    if(jsonName) JSON.parse(JSON.stringify(this.body));
+    if (jsonName != "") {
+      if (!jsonName.includes(".json")) jsonName = `${jsonName}.json`;
+      const bodyEntries = this.getAllEntries(this.body);
+      console.log(bodyEntries);
+
+      fs.writeFileSync(
+        jsonName,
+        JSON.stringify(Object.fromEntries(bodyEntries))
+      );
+    }
   }
 
   private build(file: string) {
     const splitedXmlFile = file.split("<");
-    const startPoint = splitedXmlFile[0];
-    this.body = this.getAllSubtags(startPoint, splitedXmlFile)
+    const startPoint = splitedXmlFile[1];
+    this.body = this.getAllSubtags(startPoint, splitedXmlFile);
   }
 
-  private getAllSubtags(tag: string, splitedXmlFile: string[]){ 
-    return {"this": "is not working yet"}
+  private getAllSubtags(tag: string, xml: string[]): any {
+    const atributeList = this.getAllAtributes(tag);
+    const tagName = tag.slice(0, tag.indexOf(" "));
+
+    if (this.isAutoClose(tag))
+      return new Map([
+        [
+          `${tagName}`,
+          new Map([
+            ["atributes", atributeList],
+            ["value", null],
+          ]),
+        ],
+      ]);
+
+    if ((this, this.isAValueatedTag(tag))) {
+      return new Map([
+        [
+          `${tagName}`,
+          new Map([
+            ["atributes", null],
+            ["value", tag.split(">")[1]],
+          ]),
+        ],
+      ]);
+    }
+
+    const indexOfNextTag = xml.indexOf(tag) + 1;
+    const next = xml[indexOfNextTag];
+
+    return new Map([
+      [`${tagName}`, this.getAllSubtags(next, xml.slice(indexOfNextTag))],
+    ]);
   }
 
   private isAutoClose(tag: string) {
@@ -61,6 +101,10 @@ class Xml {
 
     return tagAtributes;
   }
+
+  // private getAllEntries(map: Map<any, any | Map<any, any>>) {
+    
+  // }
 }
 
 export { TEST_FILLE_NAME, Xml };
