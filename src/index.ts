@@ -18,16 +18,15 @@ class Xml {
 
     this.build(file);
 
-    if (jsonName != "") {
-      if (!jsonName.includes(".json")) jsonName = `${jsonName}.json`;
-      const bodyEntries = this.getAllEntries(this.body);
-      console.log(bodyEntries);
+    if (jsonName != "") this.parse(jsonName);
+  }
 
-      fs.writeFileSync(
-        jsonName,
-        JSON.stringify(Object.fromEntries(bodyEntries))
-      );
-    }
+  private parse(jsonName: string) {
+    if (!jsonName.includes(".json")) jsonName = `${jsonName}.json`;
+    const bodyEntries = this.getAllEntries(this.body).slice(0, -1);
+    console.log(bodyEntries);
+
+    fs.writeFileSync(jsonName, bodyEntries);
   }
 
   private build(file: string) {
@@ -102,16 +101,8 @@ class Xml {
     return tagAtributes;
   }
 
-  private getAllEntries(map: Map<any, any | Map<any, any>>) {
-    let entries = Array();
-
-    for (const [key, value] of map) {
-      if (typeof value == "string") continue;
-
-      entries.push([key, this.getAllEntries(value)]);
-    }
-
-    return entries;
+  private getAllEntries(map: Map<string, string | Map<string, string>>) {
+    return "this isn't workin yet"
   }
 }
 

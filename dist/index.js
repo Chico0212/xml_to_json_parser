@@ -39,13 +39,15 @@ class Xml {
             .toString()
             .replace(ALL_SPACES_AND_TABS, "");
         this.build(file);
-        if (jsonName != "") {
-            if (!jsonName.includes(".json"))
-                jsonName = `${jsonName}.json`;
-            const bodyEntries = this.getAllEntries(this.body);
-            console.log(bodyEntries);
-            fs.writeFileSync(jsonName, JSON.stringify(Object.fromEntries(bodyEntries)));
-        }
+        if (jsonName != "")
+            this.parse(jsonName);
+    }
+    parse(jsonName) {
+        if (!jsonName.includes(".json"))
+            jsonName = `${jsonName}.json`;
+        const bodyEntries = this.getAllEntries(this.body).slice(0, -1);
+        console.log(bodyEntries);
+        fs.writeFileSync(jsonName, bodyEntries);
     }
     build(file) {
         const splitedXmlFile = file.split("<");
@@ -106,13 +108,7 @@ class Xml {
         return tagAtributes;
     }
     getAllEntries(map) {
-        const todasAsEntradas = [];
-        for (const [mapKey, mapValue] of map) {
-            for (const [key, value] of mapValue) {
-                todasAsEntradas.push([mapKey, key, value]);
-            }
-        }
-        return todasAsEntradas;
+        return "this isn't workin yet";
     }
 }
 exports.Xml = Xml;
