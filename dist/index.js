@@ -45,9 +45,8 @@ class Xml {
     parse(jsonName) {
         if (!jsonName.includes(".json"))
             jsonName = `${jsonName}.json`;
-        const bodyEntries = this.getAllEntries(this.body).slice(0, -1);
-        console.log(bodyEntries);
-        fs.writeFileSync(jsonName, bodyEntries);
+        const objectParseJSON = this.getObject(this.body);
+        fs.writeFileSync(jsonName, JSON.stringify(objectParseJSON));
     }
     build(file) {
         const splitedXmlFile = file.split("<");
@@ -107,8 +106,19 @@ class Xml {
         }
         return tagAtributes;
     }
-    getAllEntries(map) {
-        return "this isn't workin yet";
+    getObject(map) {
+        let jsonParseObject;
+        for (const [key, value] of map) {
+            if (typeof value === "string" || value === null || value === undefined) {
+                jsonParseObject = Object.fromEntries(Array([key, value]));
+                continue;
+            }
+            jsonParseObject = Object.fromEntries(Array([
+                key,
+                this.getObject(value),
+            ]));
+        }
+        return jsonParseObject;
     }
 }
 exports.Xml = Xml;

@@ -1,1 +1,261 @@
-"this isn't workin yet"
+{
+  "EnviarLoteRpsEnvio": {
+    "LoteRps": {
+      "NumeroLote>": {
+        "/NumeroLote": {
+          "CpfCnpj": {
+            "Cnpj>9999999999999": {
+              "/Cnpj": {
+                "/CpfCnpj": {
+                  "InscricaoMunicipal>9999": {
+                    "/InscricaoMunicipal": {
+                      "QuantidadeRps>": {
+                        "/QuantidadeRps": {
+                          "ListaRps": {
+                            "Rps": {
+                              "InfDeclaracaoPrestacaoServico": {
+                                "Rps": {
+                                  "IdentificacaoRps": {
+                                    "Numero>": {
+                                      "/Numero": {
+                                        "Serie>": {
+                                          "/Serie": {
+                                            "Tipo>": {
+                                              "/Tipo": {
+                                                "/IdentificacaoRps": {
+                                                  "DataEmissao>9999-99-9": {
+                                                    "/DataEmissao": {
+                                                      "Status>": {
+                                                        "/Status": {
+                                                          "/Rps": {
+                                                            "Competencia>9999-99-9": {
+                                                              "/Competencia": {
+                                                                "Servico": {
+                                                                  "Valores": {
+                                                                    "ValorServicos>100": {
+                                                                      "/ValorServicos": {
+                                                                        "ValorDeducoes": {
+                                                                          "/ValorDeducoes": {
+                                                                            "ValorPis": {
+                                                                              "/ValorPis": {
+                                                                                "ValorCofins": {
+                                                                                  "/ValorCofins": {
+                                                                                    "ValorInss": {
+                                                                                      "/ValorInss": {
+                                                                                        "ValorIr": {
+                                                                                          "/ValorIr": {
+                                                                                            "ValorCsll": {
+                                                                                              "/ValorCsll": {
+                                                                                                "OutrasRetencoes": {
+                                                                                                  "/OutrasRetencoes": {
+                                                                                                    "ValTotTributos": {
+                                                                                                      "/ValTotTributos": {
+                                                                                                        "ValorIss": {
+                                                                                                          "/ValorIss": {
+                                                                                                            "Aliquota": {
+                                                                                                              "/Aliquota": {
+                                                                                                                "DescontoIncondicionado": {
+                                                                                                                  "/DescontoIncondicionado": {
+                                                                                                                    "DescontoCondicionado": {
+                                                                                                                      "/DescontoCondicionado": {
+                                                                                                                        "/Valores": {
+                                                                                                                          "IssRetido>": {
+                                                                                                                            "/IssRetido": {
+                                                                                                                              "ItemListaServico>99.9": {
+                                                                                                                                "/ItemListaServico": {
+                                                                                                                                  "CodigoCnae>999999": {
+                                                                                                                                    "/CodigoCnae": {
+                                                                                                                                      "CodigoTributacaoMunicipio": {
+                                                                                                                                        "/CodigoTributacaoMunicipio": {
+                                                                                                                                          "Discriminacao>TESTE": {
+                                                                                                                                            "/Discriminacao": {
+                                                                                                                                              "CodigoMunicipio>150550": {
+                                                                                                                                                "/CodigoMunicipio": {
+                                                                                                                                                  "ExigibilidadeISS>": {
+                                                                                                                                                    "/ExigibilidadeISS": {
+                                                                                                                                                      "/Servico": {
+                                                                                                                                                        "Prestador": {
+                                                                                                                                                          "CpfCnpj": {
+                                                                                                                                                            "Cnpj>9999999999999": {
+                                                                                                                                                              "/Cnpj": {
+                                                                                                                                                                "/CpfCnpj": {
+                                                                                                                                                                  "InscricaoMunicipal>99999": {
+                                                                                                                                                                    "/InscricaoMunicipal": {
+                                                                                                                                                                      "/Prestador": {
+                                                                                                                                                                        "Tomador": {
+                                                                                                                                                                          "IdentificacaoTomador": {
+                                                                                                                                                                            "CpfCnpj": {
+                                                                                                                                                                              "Cnpj>0386621100010": {
+                                                                                                                                                                                "/Cnpj": {
+                                                                                                                                                                                  "/CpfCnpj": {
+                                                                                                                                                                                    "InscricaoMunicipal>2822": {
+                                                                                                                                                                                      "/InscricaoMunicipal": {
+                                                                                                                                                                                        "/IdentificacaoTomador": {
+                                                                                                                                                                                          "RazaoSocial>DIVISA": {
+                                                                                                                                                                                            "/RazaoSocial": {
+                                                                                                                                                                                              "Endereco": {
+                                                                                                                                                                                                "Endereco>TEST": {
+                                                                                                                                                                                                  "/Endereco": {
+                                                                                                                                                                                                    "Numero>TEST": {
+                                                                                                                                                                                                      "/Numero": {
+                                                                                                                                                                                                        "Complemento": {
+                                                                                                                                                                                                          "/Complemento": {
+                                                                                                                                                                                                            "Bairro>TEST": {
+                                                                                                                                                                                                              "/Bairro": {
+                                                                                                                                                                                                                "CodigoMunicipio>150550": {
+                                                                                                                                                                                                                  "/CodigoMunicipio": {
+                                                                                                                                                                                                                    "Uf>P": {
+                                                                                                                                                                                                                      "/Uf": {
+                                                                                                                                                                                                                        "CodigoPais": {
+                                                                                                                                                                                                                          "/CodigoPais": {
+                                                                                                                                                                                                                            "Cep>99999999": {
+                                                                                                                                                                                                                              "/Cep": {
+                                                                                                                                                                                                                                "/Endereco": {
+                                                                                                                                                                                                                                  "Contato": {
+                                                                                                                                                                                                                                    "Telefone>999999999": {
+                                                                                                                                                                                                                                      "/Telefone": {
+                                                                                                                                                                                                                                        "Email>teste@teste.co": {
+                                                                                                                                                                                                                                          "/Email": {
+                                                                                                                                                                                                                                            "/Contato": {
+                                                                                                                                                                                                                                              "/Tomador": {
+                                                                                                                                                                                                                                                "RegimeEspecialTributacao>": {
+                                                                                                                                                                                                                                                  "/RegimeEspecialTributacao": {
+                                                                                                                                                                                                                                                    "OptanteSimplesNacional>": {
+                                                                                                                                                                                                                                                      "/OptanteSimplesNacional": {
+                                                                                                                                                                                                                                                        "IncentivoFiscal>": {
+                                                                                                                                                                                                                                                          "/IncentivoFiscal": {
+                                                                                                                                                                                                                                                            "/InfDeclaracaoPrestacaoServico": {
+                                                                                                                                                                                                                                                              "Signature": {
+                                                                                                                                                                                                                                                                "SignedInfo": {
+                                                                                                                                                                                                                                                                  "CanonicalizationMethodAlgorithm=\"http://www.w3.org/TR/2001/REC-xml-c14n-20010315\"": {
+                                                                                                                                                                                                                                                                    "value": null
+                                                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                              }
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                          }
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                      }
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                  }
+                                                                                                                                                                                                }
+                                                                                                                                                                                              }
+                                                                                                                                                                                            }
+                                                                                                                                                                                          }
+                                                                                                                                                                                        }
+                                                                                                                                                                                      }
+                                                                                                                                                                                    }
+                                                                                                                                                                                  }
+                                                                                                                                                                                }
+                                                                                                                                                                              }
+                                                                                                                                                                            }
+                                                                                                                                                                          }
+                                                                                                                                                                        }
+                                                                                                                                                                      }
+                                                                                                                                                                    }
+                                                                                                                                                                  }
+                                                                                                                                                                }
+                                                                                                                                                              }
+                                                                                                                                                            }
+                                                                                                                                                          }
+                                                                                                                                                        }
+                                                                                                                                                      }
+                                                                                                                                                    }
+                                                                                                                                                  }
+                                                                                                                                                }
+                                                                                                                                              }
+                                                                                                                                            }
+                                                                                                                                          }
+                                                                                                                                        }
+                                                                                                                                      }
+                                                                                                                                    }
+                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                              }
+                                                                                                                            }
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              }
+                                                                                                            }
+                                                                                                          }
+                                                                                                        }
+                                                                                                      }
+                                                                                                    }
+                                                                                                  }
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

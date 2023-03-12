@@ -23,10 +23,9 @@ class Xml {
 
   private parse(jsonName: string) {
     if (!jsonName.includes(".json")) jsonName = `${jsonName}.json`;
-    const bodyEntries = this.getAllEntries(this.body).slice(0, -1);
-    console.log(bodyEntries);
+    const objectParseJSON = this.getObject(this.body);
 
-    fs.writeFileSync(jsonName, bodyEntries);
+    fs.writeFileSync(jsonName, JSON.stringify(objectParseJSON));
   }
 
   private build(file: string) {
@@ -101,8 +100,23 @@ class Xml {
     return tagAtributes;
   }
 
-  private getAllEntries(map: Map<string, string | Map<string, string>>) {
-    return "this isn't workin yet"
+  private getObject(map: Map<string, string | Map<string, string>>): any {
+    let jsonParseObject;
+    for (const [key, value] of map) {
+      if (typeof value === "string" || value === null || value === undefined) {
+        jsonParseObject = Object.fromEntries(Array([key, value]));
+        continue;
+      }
+
+      jsonParseObject = Object.fromEntries(
+        Array([
+          key,
+          this.getObject(value as Map<string, string | Map<string, string>>),
+        ])
+      );
+    }
+
+    return jsonParseObject;
   }
 }
 
