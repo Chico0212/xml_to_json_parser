@@ -102,9 +102,17 @@ class Xml {
     return tagAtributes;
   }
 
-  // private getAllEntries(map: Map<any, any | Map<any, any>>) {
-    
-  // }
+  private getAllEntries(map: Map<any, any | Map<any, any>>) {
+    let entries = Array();
+
+    for (const [key, value] of map) {
+      if (typeof value == "string") continue;
+
+      entries.push([key, this.getAllEntries(value)]);
+    }
+
+    return entries;
+  }
 }
 
 export { TEST_FILLE_NAME, Xml };
