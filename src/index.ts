@@ -3,22 +3,23 @@ import * as fs from "fs";
 import { json } from "stream/consumers";
 const TEST_FILLE_NAME = "teste.xml";
 
-const AUTO_CLOSE_TAG_PATTERN = /\<*\/>/g;
-const ALL_SPACES_AND_TABS = /(\n|\t|\r)/g;
-const TAG_HAVE_VALUE = />\w+</g;
+const CLOSE_TAG_PATTERN = RegExp("/(.+)>");
+const VALUATED_TAG_PATTERN = RegExp(">(.+)");
+const AUTO_CLOSE_TAG_PATTERN = RegExp(".+/>");
+const ALL_SPACES_AND_TABS_PATTERN = RegExp("(\n|\t|\r)");
 
 class Xml {
   body = {} as Map<any, any>;
-  constructor(filePath: string, jsonName: string = "") {
+  constructor(filePath: string, jsonName: string | boolean = "") {
     // TEST_FILLE_NAME sem quebra de linhas
     const file = fs
       .readFileSync(filePath)
       .toString()
-      .replace(ALL_SPACES_AND_TABS, "");
+      .replace(ALL_SPACES_AND_TABS_PATTERN, "");
 
     this.build(file);
 
-    if (jsonName != "") this.parse(jsonName);
+    if (jsonName) this.parse(jsonName as string);
   }
 
   private parse(jsonName: string) {
@@ -35,38 +36,7 @@ class Xml {
   }
 
   private getAllSubtags(tag: string, xml: string[]): any {
-    const atributeList = this.getAllAtributes(tag);
-    const tagName = tag.slice(0, tag.indexOf(" "));
-
-    if (this.isAutoClose(tag))
-      return new Map([
-        [
-          `${tagName}`,
-          new Map([
-            ["atributes", atributeList],
-            ["value", null],
-          ]),
-        ],
-      ]);
-
-    if ((this, this.isAValueatedTag(tag))) {
-      return new Map([
-        [
-          `${tagName}`,
-          new Map([
-            ["atributes", null],
-            ["value", tag.split(">")[1]],
-          ]),
-        ],
-      ]);
-    }
-
-    const indexOfNextTag = xml.indexOf(tag) + 1;
-    const next = xml[indexOfNextTag];
-
-    return new Map([
-      [`${tagName}`, this.getAllSubtags(next, xml.slice(indexOfNextTag))],
-    ]);
+    return "this isn't working yet";
   }
 
   private isAutoClose(tag: string) {
@@ -74,7 +44,7 @@ class Xml {
   }
 
   private isAValueatedTag(tag: string) {
-    return TAG_HAVE_VALUE.test(tag);
+    return VALUATED_TAG_PATTERN.test(tag);
   }
 
   private getAllAtributes(tag: string) {
@@ -103,17 +73,14 @@ class Xml {
   private getObject(map: Map<string, string | Map<string, string>>): any {
     let jsonParseObject;
     for (const [key, value] of map) {
-      if (typeof value === "string" || value === null || value === undefined) {
-        jsonParseObject = Object.fromEntries(Array([key, value]));
+      if (value instanceof Map<string, string | Map<string, string>>) {
+        jsonParseObject = Object.fromEntries(
+          Array([key, this.getObject(value)])
+        );
         continue;
       }
 
-      jsonParseObject = Object.fromEntries(
-        Array([
-          key,
-          this.getObject(value as Map<string, string | Map<string, string>>),
-        ])
-      );
+      jsonParseObject = Object.fromEntries(Array([key, value]));
     }
 
     return jsonParseObject;

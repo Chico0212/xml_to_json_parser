@@ -27,9 +27,10 @@ exports.Xml = exports.TEST_FILLE_NAME = void 0;
 const fs = __importStar(require("fs"));
 const TEST_FILLE_NAME = "teste.xml";
 exports.TEST_FILLE_NAME = TEST_FILLE_NAME;
-const AUTO_CLOSE_TAG_PATTERN = /\<*\/>/g;
-const ALL_SPACES_AND_TABS = /(\n|\t|\r)/g;
-const TAG_HAVE_VALUE = />\w+</g;
+const CLOSE_TAG_PATTERN = RegExp("/(.+)>");
+const VALUATED_TAG_PATTERN = RegExp(">(.+)");
+const AUTO_CLOSE_TAG_PATTERN = RegExp(".+/>");
+const ALL_SPACES_AND_TABS_PATTERN = RegExp("(\n|\t|\r)");
 class Xml {
     constructor(filePath, jsonName = "") {
         this.body = {};
@@ -37,9 +38,9 @@ class Xml {
         const file = fs
             .readFileSync(filePath)
             .toString()
-            .replace(ALL_SPACES_AND_TABS, "");
+            .replace(ALL_SPACES_AND_TABS_PATTERN, "");
         this.build(file);
-        if (jsonName != "")
+        if (jsonName)
             this.parse(jsonName);
     }
     parse(jsonName) {
@@ -56,8 +57,9 @@ class Xml {
     getAllSubtags(tag, xml) {
         const atributeList = this.getAllAtributes(tag);
         const tagName = tag.slice(0, tag.indexOf(" "));
-        if (this.isAutoClose(tag))
-            return new Map([
+        let teste;
+        if (this.isAutoClose(tag)) {
+            teste = new Map([
                 [
                     `${tagName}`,
                     new Map([
@@ -66,8 +68,11 @@ class Xml {
                     ]),
                 ],
             ]);
-        if ((this, this.isAValueatedTag(tag))) {
-            return new Map([
+            return teste;
+        }
+        if (this.isAValueatedTag(tag)) {
+            console.log(tag, tag.split(">")[1]);
+            teste = new Map([
                 [
                     `${tagName}`,
                     new Map([
@@ -76,6 +81,7 @@ class Xml {
                     ]),
                 ],
             ]);
+            return teste;
         }
         const indexOfNextTag = xml.indexOf(tag) + 1;
         const next = xml[indexOfNextTag];
@@ -87,7 +93,7 @@ class Xml {
         return AUTO_CLOSE_TAG_PATTERN.test(tag);
     }
     isAValueatedTag(tag) {
-        return TAG_HAVE_VALUE.test(tag);
+        return VALUATED_TAG_PATTERN.test(tag);
     }
     getAllAtributes(tag) {
         const atributeList = tag.split(" ").slice(1);
@@ -109,14 +115,11 @@ class Xml {
     getObject(map) {
         let jsonParseObject;
         for (const [key, value] of map) {
-            if (typeof value === "string" || value === null || value === undefined) {
-                jsonParseObject = Object.fromEntries(Array([key, value]));
+            if (value instanceof (Map)) {
+                jsonParseObject = Object.fromEntries(Array([key, this.getObject(value)]));
                 continue;
             }
-            jsonParseObject = Object.fromEntries(Array([
-                key,
-                this.getObject(value),
-            ]));
+            jsonParseObject = Object.fromEntries(Array([key, value]));
         }
         return jsonParseObject;
     }
