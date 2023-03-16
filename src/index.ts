@@ -8,6 +8,12 @@ const VALUATED_TAG_PATTERN = RegExp(">(.+)");
 const AUTO_CLOSE_TAG_PATTERN = RegExp(".+/>");
 const ALL_SPACES_AND_TABS_PATTERN = RegExp("(\n|\t|\r)");
 
+interface XmlProp {
+  tagName: string;
+  atributes: Map<string, string>;
+  value: Array<Map<string, XmlProp> | string>
+}
+
 class Xml {
   body = {} as Map<any, any>;
   constructor(filePath: string, jsonName: string | boolean = "") {
