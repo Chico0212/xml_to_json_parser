@@ -8,7 +8,7 @@ import { JsonDocumentParser } from "./jsonParser";
 import { TagValidator } from "./tagValidator";
 
 class Xml {
-  body = {} as Map<any, any>;
+  body = {} as XmlProp;
   constructor(filePath: string, jsonName: string | boolean = "") {
     // TEST_FILLE_NAME sem quebra de linhas
     const file = fs
@@ -24,7 +24,7 @@ class Xml {
   private build(file: string): void {
     const splitedXmlFile = file.split("<");
     const startPoint = splitedXmlFile[1];
-    this.body = this.getAllSubtags(startPoint, splitedXmlFile);
+    this.getAllSubtags(startPoint, splitedXmlFile);
   }
 
   private getAllSubtags(entryTag: string, xml: string[]): any {

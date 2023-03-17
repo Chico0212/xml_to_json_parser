@@ -40,7 +40,7 @@
 						<CodigoCnae>9999999</CodigoCnae>
 						<CodigoTributacaoMunicipio></CodigoTributacaoMunicipio>
 						<Discriminacao>TESTE.</Discriminacao>
-						<CodigoMunicipio>1505502</CodigoMunicipio>
+						<CodigoMunicipio>99999</CodigoMunicipio>
 						<ExigibilidadeISS>1</ExigibilidadeISS>
 					</Servico>
 					<Prestador>
@@ -52,9 +52,9 @@
 					<Tomador>
 						<IdentificacaoTomador>
 							<CpfCnpj>
-								<Cnpj>03866211000108</Cnpj>
+								<Cnpj>999999999999</Cnpj>
 							</CpfCnpj>
-							<InscricaoMunicipal>28222</InscricaoMunicipal>
+							<InscricaoMunicipal>99999</InscricaoMunicipal>
 						</IdentificacaoTomador>
 						<RazaoSocial>DIVISA VEICULOS LTDA</RazaoSocial>
 						<Endereco>
@@ -62,7 +62,7 @@
 							<Numero>TESTE</Numero>
 							<Complemento></Complemento>
 							<Bairro>TESTE</Bairro>
-							<CodigoMunicipio>1505502</CodigoMunicipio>
+							<CodigoMunicipio>9999999</CodigoMunicipio>
 							<Uf>PA</Uf>
 							<CodigoPais></CodigoPais>
 							<Cep>999999999</Cep>
