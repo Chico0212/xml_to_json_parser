@@ -1,18 +1,10 @@
-import { SrvRecord } from "dns";
 import * as fs from "fs";
-import { json } from "stream/consumers";
-const TEST_FILLE_NAME = "teste.xml";
-
-const CLOSE_TAG_PATTERN = RegExp("/(.+)>");
-const VALUATED_TAG_PATTERN = RegExp(">(.+)");
-const AUTO_CLOSE_TAG_PATTERN = RegExp(".+/>");
-const ALL_SPACES_AND_TABS_PATTERN = RegExp("(\n|\t|\r)");
-
-interface XmlProp {
-  tagName: string;
-  atributes: Map<string, string>;
-  value: Array<Map<string, XmlProp> | string>
-}
+import {
+  ALL_SPACES_AND_TABS_PATTERN,
+  TEST_FILLE_NAME,
+  XmlProp,
+} from "../utils/constants";
+import { TagValidator } from "./tagValidator";
 
 class Xml {
   body = {} as Map<any, any>;
@@ -28,32 +20,31 @@ class Xml {
     if (jsonName) this.parse(jsonName as string);
   }
 
-  private parse(jsonName: string) {
+  private parse(jsonName: string): void {
     if (!jsonName.includes(".json")) jsonName = `${jsonName}.json`;
     const objectParseJSON = this.getObject(this.body);
 
     fs.writeFileSync(jsonName, JSON.stringify(objectParseJSON));
   }
 
-  private build(file: string) {
+  private build(file: string): void {
     const splitedXmlFile = file.split("<");
     const startPoint = splitedXmlFile[1];
     this.body = this.getAllSubtags(startPoint, splitedXmlFile);
   }
 
-  private getAllSubtags(tag: string, xml: string[]): any {
-    return "this isn't working yet";
+  private getObject(map: Map<string, string | Map<string, string>>): any {
+    "AAAA";
   }
 
-  private isAutoClose(tag: string) {
-    return AUTO_CLOSE_TAG_PATTERN.test(tag);
+  private getAllSubtags(entryTag: string, xml: string[]): any {
+    // for (const tag of xml) {
+    //   if()
+    // }
+    for (const tag of xml) console.log(TagValidator.getTagName(tag));
   }
 
-  private isAValueatedTag(tag: string) {
-    return VALUATED_TAG_PATTERN.test(tag);
-  }
-
-  private getAllAtributes(tag: string) {
+  private getAllAtributes(tag: string): Map<string, string> | null {
     const atributeList = tag.split(" ").slice(1);
 
     if (atributeList.length == 0) {
@@ -74,22 +65,6 @@ class Xml {
     }
 
     return tagAtributes;
-  }
-
-  private getObject(map: Map<string, string | Map<string, string>>): any {
-    let jsonParseObject;
-    for (const [key, value] of map) {
-      if (value instanceof Map<string, string | Map<string, string>>) {
-        jsonParseObject = Object.fromEntries(
-          Array([key, this.getObject(value)])
-        );
-        continue;
-      }
-
-      jsonParseObject = Object.fromEntries(Array([key, value]));
-    }
-
-    return jsonParseObject;
   }
 }
 

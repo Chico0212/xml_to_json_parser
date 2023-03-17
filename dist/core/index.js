@@ -25,12 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Xml = exports.TEST_FILLE_NAME = void 0;
 const fs = __importStar(require("fs"));
-const TEST_FILLE_NAME = "teste.xml";
-exports.TEST_FILLE_NAME = TEST_FILLE_NAME;
-const CLOSE_TAG_PATTERN = RegExp("/(.+)>");
-const VALUATED_TAG_PATTERN = RegExp(">(.+)");
-const AUTO_CLOSE_TAG_PATTERN = RegExp(".+/>");
-const ALL_SPACES_AND_TABS_PATTERN = RegExp("(\n|\t|\r)");
+const constants_1 = require("../utils/constants");
+Object.defineProperty(exports, "TEST_FILLE_NAME", { enumerable: true, get: function () { return constants_1.TEST_FILLE_NAME; } });
 class Xml {
     constructor(filePath, jsonName = "") {
         this.body = {};
@@ -38,7 +34,7 @@ class Xml {
         const file = fs
             .readFileSync(filePath)
             .toString()
-            .replace(ALL_SPACES_AND_TABS_PATTERN, "");
+            .replace(constants_1.ALL_SPACES_AND_TABS_PATTERN, "");
         this.build(file);
         if (jsonName)
             this.parse(jsonName);
@@ -54,46 +50,27 @@ class Xml {
         const startPoint = splitedXmlFile[1];
         this.body = this.getAllSubtags(startPoint, splitedXmlFile);
     }
-    getAllSubtags(tag, xml) {
-        const atributeList = this.getAllAtributes(tag);
-        const tagName = tag.slice(0, tag.indexOf(" "));
-        let teste;
-        if (this.isAutoClose(tag)) {
-            teste = new Map([
-                [
-                    `${tagName}`,
-                    new Map([
-                        ["atributes", atributeList],
-                        ["value", null],
-                    ]),
-                ],
-            ]);
-            return teste;
-        }
-        if (this.isAValueatedTag(tag)) {
-            console.log(tag, tag.split(">")[1]);
-            teste = new Map([
-                [
-                    `${tagName}`,
-                    new Map([
-                        ["atributes", null],
-                        ["value", tag.split(">")[1]],
-                    ]),
-                ],
-            ]);
-            return teste;
-        }
-        const indexOfNextTag = xml.indexOf(tag) + 1;
-        const next = xml[indexOfNextTag];
-        return new Map([
-            [`${tagName}`, this.getAllSubtags(next, xml.slice(indexOfNextTag))],
-        ]);
+    getAllSubtags(entryTag, xml) {
+        // for (const tag of xml) {
+        //   if()
+        // }
+        for (const tag of xml)
+            console.log(this.getTagName(tag));
+    }
+    getTagName(tag) {
+        let tagName = tag.split(" ")[0];
+        if (tag.indexOf(">") > 0)
+            tagName = tag.slice(0, -1);
+        return tagName;
     }
     isAutoClose(tag) {
-        return AUTO_CLOSE_TAG_PATTERN.test(tag);
+        return constants_1.AUTO_CLOSE_TAG_PATTERN.test(tag);
     }
     isAValueatedTag(tag) {
-        return VALUATED_TAG_PATTERN.test(tag);
+        return constants_1.VALUATED_TAG_PATTERN.test(tag);
+    }
+    isCloseTag(tagName, tag) {
+        return (0, constants_1.CLOSE_TAG_PATTERN)(tagName).test(tag);
     }
     getAllAtributes(tag) {
         const atributeList = tag.split(" ").slice(1);
@@ -113,15 +90,7 @@ class Xml {
         return tagAtributes;
     }
     getObject(map) {
-        let jsonParseObject;
-        for (const [key, value] of map) {
-            if (value instanceof (Map)) {
-                jsonParseObject = Object.fromEntries(Array([key, this.getObject(value)]));
-                continue;
-            }
-            jsonParseObject = Object.fromEntries(Array([key, value]));
-        }
-        return jsonParseObject;
+        "AAAA";
     }
 }
 exports.Xml = Xml;
