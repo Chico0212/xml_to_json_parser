@@ -4,6 +4,7 @@ import {
   TEST_FILLE_NAME,
   XmlProp,
 } from "../utils/constants";
+import { JsonDocumentParser } from "./jsonParser";
 import { TagValidator } from "./tagValidator";
 
 class Xml {
@@ -17,14 +18,7 @@ class Xml {
 
     this.build(file);
 
-    if (jsonName) this.parse(jsonName as string);
-  }
-
-  private parse(jsonName: string): void {
-    if (!jsonName.includes(".json")) jsonName = `${jsonName}.json`;
-    const objectParseJSON = this.getObject(this.body);
-
-    fs.writeFileSync(jsonName, JSON.stringify(objectParseJSON));
+    if (jsonName) JsonDocumentParser.parse(jsonName as string, this.body);
   }
 
   private build(file: string): void {
@@ -33,14 +27,7 @@ class Xml {
     this.body = this.getAllSubtags(startPoint, splitedXmlFile);
   }
 
-  private getObject(map: Map<string, string | Map<string, string>>): any {
-    "AAAA";
-  }
-
   private getAllSubtags(entryTag: string, xml: string[]): any {
-    // for (const tag of xml) {
-    //   if()
-    // }
     for (const tag of xml) console.log(TagValidator.getTagName(tag));
   }
 
